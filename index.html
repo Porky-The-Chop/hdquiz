@@ -1,0 +1,61 @@
+<script>
+
+while(true) {
+const quizQuestions = [
+  {
+    question: 'How many clay does it take to make a workbench?',
+    answer: [
+      '5',
+      'five'
+    ]
+  },
+  {
+    question: 'Can you meditate in survival expert mode?',
+    answer: [ 'no' ]
+  },
+  {
+    question: 'What material does it take to make embers?',
+    answer: [ 'wood' ]
+  }
+]
+
+const threshold = 2
+const failMessage = 'You failed the expert mode quiz. Please try again when you have sufficient expert mode knowledge.'
+
+function quiz() {
+  if (localStorage.getItem('porky-quiz.passed')) return
+
+  alert('Since you seem to be new here, we have a quiz for you to take. Please press OK.')
+
+  let fails = 0
+
+  for (const question of quizQuestions) {
+
+    let answer
+
+    while (!answer) {
+      answer = prompt(question.question)
+    }
+    
+    const isCorrect = question.answer.some(valid => valid.toLowerCase() === answer.toLowerCase())
+
+    if (!isCorrect) fails++
+
+    if (fails > threshold) {
+      alert(failMessage)
+      quiz()
+    }
+  }
+
+  if (fails < threshold) {
+    localStorage.setItem('porky-quiz.passed', true)
+  } else {
+    alert(failMessage)
+    quiz()
+  }
+}
+
+quiz()
+}
+
+</script>
